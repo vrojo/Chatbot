@@ -248,7 +248,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   }
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
-    actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...\nMerci quand même Jacky et Michel !!!');
+    actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...');
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
   else {
