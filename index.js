@@ -243,13 +243,12 @@ var actions = {
 // --------------------- CHOISIR LA PROCHAINE ACTION (LOGIQUE) EN FCT DES ENTITES OU INTENTIONS------------
 function choisir_prochaine_action( sessionId, context, entities ) {
   // ACTION PAR DEFAUT CAR AUCUNE ENTITE DETECTEE
-  console.log("coucoucoucoucoucoucocucoucoucoucoucoucoucoucoucoucoucoucoucoucoucoucoucocucoucoucoucoucoucoucoucoucoucoucoucoucoucoucoucoucocucoucoucoucoucoucoucoucoucoucoucoucoucoucoucoucoucocucoucoucoucoucoucoucoucoucoucou")
   if(Object.keys(entities).length === 0 && entities.constructor === Object) {
 
   }
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
-
+    actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...\nMerci quand même Jacky et Michel !!!');
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
   else {
