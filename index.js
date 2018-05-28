@@ -498,8 +498,16 @@ app.post( '/webhook', ( req, res ) => {
           var sender = event.sender.id;
           var sessionId = findOrCreateSession( sender );
             // envoyer à Wit.ai ici
-
-
+            wit.message( event.postback.payload, sessions[ sessionId ].context )
+              .then( ( {
+                entities
+              } ) => {
+                choisir_prochaine_action( sessionId, sessions[
+                  sessionId ].context, entities );
+                console.log( 'Yay, on a une response de Wit.ai : ' + JSON.stringify(
+                  entities ) );
+              } )
+              .catch( console.error );
           }
         // ----------------------------------------------------------------------------
         else {
