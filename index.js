@@ -241,38 +241,6 @@ var actions = {
   }
 };
 
-// --------------------- Fonction pour récupérer le prénom de l'utilisateur -------------------------------
-getUserName( sessionId, context, entities ) {
-  const recipientId = sessions[ sessionId ].fbid;
-  const name = sessions[ sessionId ].name || null;
-  return new Promise( function( resolve, reject ) {
-  if ( recipientId ) {
-    if ( name ) {
-      context.userName = name;
-      resolve( context );
-    } else {
-      requestUserName( recipientId )
-      .then( ( json ) => {
-        sessions[ sessionId ].name = json.first_name;
-        context.userName = json.first_name;
-        resolve( context );
-      } )
-      .catch( ( err ) => {
-        console.log( "ERROR = " + err );
-        console.error(
-          'Oops! Erreur : ',
-          err.stack || err );
-          reject( err );
-        } );
-      }
-    } else {
-      console.error( 'Oops! pas trouvé user :',
-      sessionId );
-      reject();
-    }
-  } );
-}
-
 // --------------------- CHOISIR LA PROCHAINE ACTION (LOGIQUE) EN FCT DES ENTITES OU INTENTIONS------------
 function choisir_prochaine_action( sessionId, context, entities ) {
   // ACTION PAR DEFAUT CAR AUCUNE ENTITE DETECTEE
