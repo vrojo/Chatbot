@@ -299,8 +299,8 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   }
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
-    if(entities.location) {
-      actions.envoyer_message_text( sessionId, context, entities, 'Météo, juste la ville est donnée');
+    if(entities.location && entities.intent[ 0 ].value) {
+      actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
     }
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
@@ -392,6 +392,11 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         })
         break;
       case "Connaitre_météo":
+        if (entities.location && entities.location[0].value) {
+          actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
+        } else {
+          actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
+        }
         actions.envoyer_message_text( sessionId, context, entities, 'Météo');
         break;
       case "RETOUR_ACCUEIL":
