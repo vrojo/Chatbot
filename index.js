@@ -297,15 +297,13 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   if(Object.keys(entities).length === 0 && entities.constructor === Object) {
     actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...');
   }
+  if(entities.location) {
+    var ville = entities.location[0].value;
+  }
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
-    actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris ce que vous voulez');
     if(entities.location) {
-      // On affiche la météo pour la ville écrite par l'utilisateur
-      if(entities.location) {
-        var ville = entities.location[0].value;
-        actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
-      }
+      actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
     }
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
