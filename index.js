@@ -240,6 +240,18 @@ var actions = {
         console.log( "Erreur envoyer_message_bouton_generique" + recipientId );
       } );
   },
+  envoyer_message_quickreplies( sessionId, context, entities, text, quick ) {
+    const recipientId = sessions[ sessionId ].fbid;
+    var response2 = {
+      "text": text,
+      "quick_replies": quick
+    };
+    return fbMessage( recipientId, response2 )
+      .then( () => {} )
+      .catch( ( err ) => {
+        console.log( "Erreur envoyer_message_text" + recipientId );
+      } );
+  },
   reset_context( entities, context, sessionId ) {
     console.log( "Je vais reset le context" + JSON.stringify( context ) );
     return new Promise( function( resolve, reject ) {
