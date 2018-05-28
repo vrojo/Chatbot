@@ -395,3 +395,36 @@ function verifyRequestSignature( req, res, buf ) {
 }
 app.listen( PORT );
 console.log( 'Listening on :' + PORT + '...' );
+
+
+
+getUserName( sessionId, context, entities ) {
+    const recipientId = sessions[ sessionId ].fbid;
+    const name = sessions[ sessionId ].name || null;
+    return new Promise( function( resolve, reject ) {
+      if ( recipientId ) {
+        if ( name ) {
+            context.userName = name;
+            resolve( context );
+        } else {
+          requestUserName( recipientId )
+            .then( ( json ) => {
+              sessions[ sessionId ].name = json.first_name;
+              context.userName = json.first_name;
+              resolve( context );
+            } )
+            .catch( ( err ) => {
+              console.log( "ERROR = " + err );
+              console.error(
+                'Oops! Erreur : ',
+                err.stack || err );
+              reject( err );
+            } );
+        }
+      } else {
+        console.error( 'Oops! pas trouvé user :',
+          sessionId );
+        reject();
+      }
+    } );
+  }
