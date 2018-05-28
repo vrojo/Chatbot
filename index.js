@@ -300,6 +300,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
     if(entities.location && entities.intent[ 0 ].value) {
+      var ville = entities.location[ 0 ].value;
       actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
     }
   }
