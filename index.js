@@ -239,37 +239,6 @@ var actions = {
       return resolve( context );
     } );
   }
-
-  getUserName( sessionId, context, entities ) {
-    const recipientId = sessions[ sessionId ].fbid;
-    const name = sessions[ sessionId ].name || null;
-    return new Promise( function( resolve, reject ) {
-      if ( recipientId ) {
-        if ( name ) {
-            context.userName = name;
-            resolve( context );
-        } else {
-          requestUserName( recipientId )
-            .then( ( json ) => {
-              sessions[ sessionId ].name = json.first_name;
-              context.userName = json.first_name;
-              resolve( context );
-            } )
-            .catch( ( err ) => {
-              console.log( "ERROR = " + err );
-              console.error(
-                'Oops! Erreur : ',
-                err.stack || err );
-                reject( err );
-            } );
-        }
-      } else {
-        console.error( 'Oops! pas trouvé user :',
-        sessionId );
-        reject();
-      }
-    } );
-  }
 };
 
 // --------------------- CHOISIR LA PROCHAINE ACTION (LOGIQUE) EN FCT DES ENTITES OU INTENTIONS------------
@@ -288,12 +257,12 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   else {
     switch ( entities.intent && entities.intent[ 0 ].value ) {
       case "Dire_Bonjour":
-        /*actions.getUserName( sessionId, context, entities ).then( function() {
+        actions.getUserName( sessionId, context, entities ).then( function() {
           actions.envoyer_message_text( sessionId, context, entities, "Bonjour mon cher "+context.userName+" !").then(function() {
             actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
           })
-        })*/
-        actions.envoyer_message_text( sessionId, context, entities, 'Bonjour mon cher utilisateur !');
+        })
+        //actions.envoyer_message_text( sessionId, context, entities, 'Bonjour mon cher utilisateur !');
         break;
       case "Connaitre_météo":
         actions.envoyer_message_text( sessionId, context, entities, 'Météo');
