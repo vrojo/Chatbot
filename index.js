@@ -396,11 +396,10 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         break;
       case "Connaitre_météo":
         if (entities.location && entities.location[0].value) {
-          actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de la ville...');
+          actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
         } else {
           actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
         }
-        actions.envoyer_message_text( sessionId, context, entities, 'Météo');
         break;
       case "RETOUR_ACCUEIL":
         actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
