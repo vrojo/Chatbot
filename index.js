@@ -249,7 +249,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
     if(entities.location) {
-      
+
     }
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
@@ -259,11 +259,13 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         actions.envoyer_message_text( sessionId, context, entities, 'Bonjour mon cher utilisateur !');
         break;
       case "Connaitre_météo":
+        actions.envoyer_message_text( sessionId, context, entities, 'Météo');
         break;
       case "RETOUR_ACCUEIL":
+        actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
         break;
       case "Dire_Aurevoir":
-
+        actions.envoyer_message_text( sessionId, context, entities, 'Au revoir !');
         break;
     };
   }
