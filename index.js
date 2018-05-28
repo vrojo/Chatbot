@@ -249,7 +249,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
     if(entities.location) {
-
+      actions.envoyer_message_text( sessionId, context, entities, 'Météo, juste la ville est donnée');
     }
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
