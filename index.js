@@ -301,12 +301,11 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
         break;
       case "Dire_Aurevoir":
-        actions.envoyer_message_text( sessionId, context, entities, 'Au revoir !');
-        /*actions.getUserName( sessionId, context, entities ).then( function() {
+        actions.getUserName( sessionId, context, entities ).then( function() {
           actions.envoyer_message_text( sessionId, context, entities, "A bientôt "+context.userName+" ! N'hésitez-pas à revenir nous voir très vite !").then(function() {
             actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
           })
-        })*/
+        })
         break;
     };
   }
