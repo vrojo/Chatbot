@@ -289,12 +289,12 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   else {
     switch ( entities.intent && entities.intent[ 0 ].value ) {
       case "Dire_Bonjour":
-        actions.getUserName( sessionId, context, entities ).then( function() {
+        /*actions.getUserName( sessionId, context, entities ).then( function() {
           actions.envoyer_message_text( sessionId, context, entities, "Bonjour mon cher "+context.userName+" !").then(function() {
             actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
           })
-        })
-        //actions.envoyer_message_text( sessionId, context, entities, 'Bonjour mon cher utilisateur !');
+        })*/
+        actions.envoyer_message_text( sessionId, context, entities, 'Bonjour mon cher utilisateur !');
         break;
       case "Connaitre_météo":
         actions.envoyer_message_text( sessionId, context, entities, 'Météo');
@@ -303,12 +303,12 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
         break;
       case "Dire_Aurevoir":
-        //actions.envoyer_message_text( sessionId, context, entities, 'Au revoir !');
-        actions.getUserName( sessionId, context, entities ).then( function() {
+        actions.envoyer_message_text( sessionId, context, entities, 'Au revoir !');
+        /*actions.getUserName( sessionId, context, entities ).then( function() {
           actions.envoyer_message_text( sessionId, context, entities, "A bientôt "+context.userName+" ! N'hésitez-pas à revenir nous voir très vite !").then(function() {
             actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
           })
-        })
+        })*/
         break;
     };
   }
