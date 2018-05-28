@@ -244,17 +244,26 @@ var actions = {
 function choisir_prochaine_action( sessionId, context, entities ) {
   // ACTION PAR DEFAUT CAR AUCUNE ENTITE DETECTEE
   if(Object.keys(entities).length === 0 && entities.constructor === Object) {
-
+    actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...');
   }
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
-    actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...');
+    if(entities.location) {
+      
+    }
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
   else {
     switch ( entities.intent && entities.intent[ 0 ].value ) {
       case "Dire_Bonjour":
         actions.envoyer_message_text( sessionId, context, entities, 'Bonjour mon cher utilisateur !');
+        break;
+      case "Connaitre_météo":
+        break;
+      case "RETOUR_ACCUEIL":
+        break;
+      case "Dire_Aurevoir":
+
         break;
     };
   }
@@ -312,12 +321,12 @@ app.post( '/webhook', ( req, res ) => {
           // -------------------------- MESSAGE IMAGE OU GEOLOCALISATION ----------------------------------
           if (event.message.attachments != null  && typeof event.message.attachments[0] != 'undefined') {
               // envoyer à Wit.ai ici
-            
+
 					}
           // --------------------------- MESSAGE QUICK_REPLIES --------------------
 					else if ( hasValue( event.message, "text" ) && hasValue(event.message, "quick_reply" ) ) {
             // envoyer à Wit.ai ici
-          
+
           }
           // ----------------------------- MESSAGE TEXT ---------------------------
           else if ( hasValue( event.message, "text" ) ) {
@@ -343,7 +352,7 @@ app.post( '/webhook', ( req, res ) => {
           var sender = event.sender.id;
           var sessionId = findOrCreateSession( sender );
             // envoyer à Wit.ai ici
-            
+
 
           }
         // ----------------------------------------------------------------------------
