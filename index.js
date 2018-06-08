@@ -297,13 +297,26 @@ function choisir_prochaine_action( sessionId, context, entities ) {
   if(Object.keys(entities).length === 0 && entities.constructor === Object) {
     actions.envoyer_message_text( sessionId, context, entities, 'Je n\'ai pas compris votre phrase, désolé...');
   }
-  if(entities.location) {
-    var ville = entities.location[0].value;
-  }
   // PAS DINTENTION DETECTEE
   if(!entities.intent) {
-    if(entities.location) {
-      actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
+    if(entities.location && entities.location[0].value) {
+      var ville = entities.location[0].value;
+      var quick = [
+        {
+          "content_type":"text",
+          "title":"Retour accueil",
+          "payload":"RETOUR_ACCUEIL"
+        },
+        {
+          "content_type":"text",
+          "title":"Au revoir",
+          "payload":"Dire_Aurevoir"
+        }
+      ]
+      actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
+        //Afficher ici les réponses rapides
+        actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?");
+      });
     }
   }
   // IL Y A UNE INTENTION DETECTION : DECOUVRONS LAQUELLE AVEC UN SWITCH
@@ -397,7 +410,24 @@ function choisir_prochaine_action( sessionId, context, entities ) {
       case "Connaitre_météo":
       if (entities.location && entities.location[0].value) {
         //Une ville est detectée mais pas reconnue
-        actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
+        //actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
+        var ville = entities.location[0].value;
+        var quick = [
+          {
+            "content_type":"text",
+            "title":"Retour accueil",
+            "payload":"RETOUR_ACCUEIL"
+          },
+          {
+            "content_type":"text",
+            "title":"Au revoir",
+            "payload":"Dire_Aurevoir"
+          }
+        ]
+        actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
+          //Afficher ici les réponses rapides
+          actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?");
+        });
       } else {
         actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
       }
