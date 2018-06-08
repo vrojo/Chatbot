@@ -395,22 +395,23 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         })
         break;
       case "Connaitre_météo":
-        if (entities.location && entities.location[0].value) {
-          actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
-        } else {
-          actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
-        }
-        break;
+      if (entities.location && entities.location[0].value) {
+        //Une ville est detectée mais pas reconnue
+        actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
+      } else {
+        actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
+      }
+      break;
       case "RETOUR_ACCUEIL":
-        actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
-        break;
+      actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
+      break;
       case "Dire_Aurevoir":
-        actions.getUserName( sessionId, context, entities ).then( function() {
-          actions.envoyer_message_text( sessionId, context, entities, "A bientôt "+context.userName+" ! N'hésitez-pas à revenir nous voir très vite !").then(function() {
-            actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
-          })
+      actions.getUserName( sessionId, context, entities ).then( function() {
+        actions.envoyer_message_text( sessionId, context, entities, "A bientôt "+context.userName+" ! N'hésitez-pas à revenir nous voir très vite !").then(function() {
+          actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
         })
-        break;
+      })
+      break;
     };
   }
 };
