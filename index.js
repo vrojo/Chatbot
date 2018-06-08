@@ -315,7 +315,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
       ]
       actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
         //Afficher ici les réponses rapides
-        actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?");
+        actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
       });
     }
   }
@@ -426,7 +426,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         ]
         actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
           //Afficher ici les réponses rapides
-          actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?");
+          actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
         });
       } else {
         actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
