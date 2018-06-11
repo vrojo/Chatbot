@@ -232,6 +232,22 @@ var actions = {
         console.log( "Erreur envoyer_message_text" + recipientId );
       } );
   },
+  envoyer_message_image( sessionId, context, entities, image_url ) {
+    const recipientId = sessions[ sessionId ].fbid;
+    var response = {
+        "attachment":{
+        "type":"image",
+        "payload":{
+          "url": image_url
+        }
+      }
+    };
+    return fbMessage( recipientId, response )
+      .then( () => {} )
+      .catch( ( err ) => {
+        console.log( "Erreur envoyer_message_text" + recipientId );
+      } );
+  },
   envoyer_message_bouton_generique( sessionId, context, entities, elements ) {
     const recipientId = sessions[ sessionId ].fbid;
     return fbMessage( recipientId, elements )
@@ -438,7 +454,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
       case "Dire_Aurevoir":
       actions.getUserName( sessionId, context, entities ).then( function() {
         actions.envoyer_message_text( sessionId, context, entities, "A bientôt "+context.userName+" ! N'hésitez-pas à revenir nous voir très vite !").then(function() {
-          actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" )
+          actions.envoyer_message_image( sessionId, context, entities, "https://mon-chatbot.com/img/byebye.jpg" );
         })
       })
       break;
