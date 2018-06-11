@@ -48,7 +48,7 @@ admin.initializeApp( {
 });
 
 // ----------------------- API KEY openweathermap -------------------------
-var api_key_weather = "xxxx";
+var api_key_weather = "9347c380589ddc78d091a9fdfce758e0";
 // ----------------------- PARAMETRES DU SERVEUR -------------------------
 const PORT = process.env.PORT || 5000;
 // Wit.ai parameters
@@ -330,8 +330,15 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         }
       ]
       actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
-        //Afficher ici les réponses rapides
-        actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
+        var ville = entities.location[0].value;
+        requestify.get("http://api.openweathermap.org/data/2.5/weather?APPID="+api_key_weather+"&q="+ville, {} ).then( function( response )  {
+            var body = JSON.parse(response.body);
+            var temperature = parseInt(body.main.temp);
+            var tempC = Math.round(temperature - 273.15);   // Passer de degrés Kelvin à degrés Celsius
+            actions.envoyer_message_text( sessionId, context, entities, "Il fait "+tempC+"°C aujourd'hui à "+entities.location[ 0 ].value).then(function() {
+                actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
+            })
+        })
       });
     }
   }
@@ -428,6 +435,14 @@ function choisir_prochaine_action( sessionId, context, entities ) {
           //Une ville est detectée mais pas reconnue
           //actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
           var ville = entities.location[0].value;
+          requestify.get("http://api.openweathermap.org/data/2.5/weather?APPID="+api_key_weather+"&q="+ville, {} ).then( function( response )  {
+              var body = JSON.parse(response.body);
+              var temperature = parseInt(body.main.temp);
+              var tempC = Math.round(temperature - 273.15);   // Passer de degrés Kelvin à degrés Celsius
+              actions.envoyer_message_text( sessionId, context, entities, "Il fait "+tempC+"°C aujourd'hui à "+entities.location[ 0 ].value).then(function() {
+                  actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
+              })
+          })
           var quick = [
             {
               "content_type":"text",
