@@ -417,7 +417,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         };
         actions.reset_context( entities, context, sessionId ).then(function() {
           actions.getUserName( sessionId, context, entities ).then( function() {
-            actions.envoyer_message_text( sessionId, context, entities, 'Bonjour '+context.userName+' et bienvenue sur votre assistant météo. Dans quelle ville souhaitez-vous connaitre la météo.').then(function() {
+            actions.envoyer_message_text( sessionId, context, entities, 'Bonjour '+context.userName+' et bienvenue sur votre assistant météo. Dans quelle ville souhaitez-vous connaitre la météo?').then(function() {
               actions.envoyer_message_bouton_generique(sessionId, context, entities, msg);
             })
           })
@@ -441,7 +441,6 @@ function choisir_prochaine_action( sessionId, context, entities ) {
           }
         ]
         actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
-          //Afficher ici les réponses rapides
           actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
         });
       } else {
@@ -449,8 +448,90 @@ function choisir_prochaine_action( sessionId, context, entities ) {
       }
       break;
       case "RETOUR_ACCUEIL":
-      actions.envoyer_message_text( sessionId, context, entities, 'Retour accueil');
-      break;
+        var msg = {
+          "attachment": {
+            "type": "template",
+            "payload": {
+              "template_type": "generic",
+              "elements": [
+                 {
+                  "title": "à Arcachon",
+                  "image_url": "https://mon-chatbot.com/img/arcachon.jpg",
+                  "subtitle": "Appuyez ici pour connaitre la météo d'Arcachon",
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "payload": "Arcachon",
+                      "title": "Découvrir"
+                  }]
+                },
+                {
+                 "title": "à Bordeaux",
+                 "image_url": "https://mon-chatbot.com/img/bordeaux.jpg",
+                 "subtitle": "Appuyez ici pour connaitre la météo de Bordeaux",
+                 "buttons": [
+                   {
+                     "type": "postback",
+                     "payload": "Bordeaux",
+                     "title": "Découvrir"
+                 }]
+               },
+               {
+                "title": "à Strasbourg",
+                "image_url": "https://mon-chatbot.com/img/strasbourg.jpg",
+                "subtitle": "Appuyez ici pour connaitre la météo de Strasbourg",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "payload": "Strasbourg",
+                    "title": "Découvrir"
+                }]
+              },
+              {
+               "title": "à Toulouse",
+               "image_url": "https://mon-chatbot.com/img/toulouse.jpg",
+               "subtitle": "Appuyez ici pour connaitre la météo de Toulouse",
+               "buttons": [
+                 {
+                   "type": "postback",
+                   "payload": "Toulouse",
+                   "title": "Découvrir"
+               }]
+             },
+             {
+              "title": "à Lyon",
+              "image_url": "https://mon-chatbot.com/img/lyon.jpg",
+              "subtitle": "Appuyez ici pour connaitre la météo de Lyon",
+              "buttons": [
+                {
+                  "type": "postback",
+                  "payload": "Lyon",
+                  "title": "Découvrir"
+              }]
+            },
+               {
+                "title": "en France",
+                "image_url": "https://mon-chatbot.com/img/france.jpg",
+                "subtitle": "Voir la météo pour toute la France",
+                "buttons": [
+                  {
+                   "type":"web_url",
+                   "url":"http://www.meteofrance.com/accueil",
+                   "title":"Découvrir"
+                 }]
+              }
+            ]
+            }
+          }
+        };
+        actions.reset_context( entities, context, sessionId ).then(function() {
+          actions.getUserName( sessionId, context, entities ).then( function() {
+            actions.envoyer_message_text( sessionId, context, entities, 'Retournons au départ '+context.userName+'. Dans quelle ville souhaitez-vous connaitre la météo?').then(function() {
+              actions.envoyer_message_bouton_generique(sessionId, context, entities, msg);
+            })
+          })
+        })
+        break;
       case "Dire_Aurevoir":
       actions.getUserName( sessionId, context, entities ).then( function() {
         actions.envoyer_message_text( sessionId, context, entities, "A bientôt "+context.userName+" ! N'hésitez-pas à revenir nous voir très vite !").then(function() {
@@ -519,7 +600,7 @@ app.post( '/webhook', ( req, res ) => {
           // --------------------------- MESSAGE QUICK_REPLIES --------------------
 					else if ( hasValue( event.message, "text" ) && hasValue(event.message, "quick_reply" ) ) {
             // envoyer à Wit.ai ici
-            wit.message( quick_reply.payload, sessions[ sessionId ].context )
+            wit.message( quick_replypayload, sessions[ sessionId ].context )
               .then( ( {
                 entities
               } ) => {
