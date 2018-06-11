@@ -417,36 +417,39 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         };
         actions.reset_context( entities, context, sessionId ).then(function() {
           actions.getUserName( sessionId, context, entities ).then( function() {
-            actions.envoyer_message_text( sessionId, context, entities, 'Bonjour '+context.userName+' et bienvenue sur votre assistant météo. Dans quelle ville souhaitez-vous connaitre la météo?').then(function() {
+            actions.envoyer_message_text( sessionId, context, entities, 'Bonjour '+context.userName+' et bienvenue sur votre assistant météo. Dans quelle ville souhaitez-vous connaitre la météo ?').then(function() {
               actions.envoyer_message_bouton_generique(sessionId, context, entities, msg);
             })
           })
         })
         break;
       case "Connaitre_météo":
-      if (entities.location && entities.location[0].value) {
-        //Une ville est detectée mais pas reconnue
-        //actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
-        var ville = entities.location[0].value;
-        var quick = [
-          {
-            "content_type":"text",
-            "title":"Retour accueil",
-            "payload":"RETOUR_ACCUEIL"
-          },
-          {
-            "content_type":"text",
-            "title":"Au revoir",
-            "payload":"Dire_Aurevoir"
-          }
-        ]
-        actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
-          actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
-        });
-      } else {
-        actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
-      }
-      break;
+        if (entities.location && entities.location[0].value) {
+          //Une ville est detectée mais pas reconnue
+          //actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville);
+          var ville = entities.location[0].value;
+          var quick = [
+            {
+              "content_type":"text",
+              "title":"Retour accueil",
+              "payload":"RETOUR_ACCUEIL"
+            },
+            {
+              "content_type":"text",
+              "title":"Au revoir",
+              "payload":"Dire_Aurevoir"
+            }
+          ]
+          actions.envoyer_message_text( sessionId, context, entities, 'On affiche la météo de ' + ville).then(function(){
+            actions.envoyer_message_quickreplies(sessionId, context, entities, "Que souhaitez-vous faire maintenant ?", quick);
+          });
+        } else {
+          actions.reset_context( entities, context, sessionId ).then(function(){
+            actions.envoyer_message_text( sessionId, context, entities, 'Dans quelle ville dois-je chercher la météo ?')
+          });
+          actions.envoyer_message_text( sessionId, context, entities, 'La ville n\'est pas reconnue...');
+        }
+        break;
       case "RETOUR_ACCUEIL":
         var msg = {
           "attachment": {
@@ -526,7 +529,7 @@ function choisir_prochaine_action( sessionId, context, entities ) {
         };
         actions.reset_context( entities, context, sessionId ).then(function() {
           actions.getUserName( sessionId, context, entities ).then( function() {
-            actions.envoyer_message_text( sessionId, context, entities, 'Retournons au départ '+context.userName+'. Dans quelle ville souhaitez-vous connaitre la météo?').then(function() {
+            actions.envoyer_message_text( sessionId, context, entities, 'Retournons au départ '+context.userName+'. Dans quelle ville souhaitez-vous connaitre la météo ?').then(function() {
               actions.envoyer_message_bouton_generique(sessionId, context, entities, msg);
             })
           })
