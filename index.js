@@ -603,7 +603,7 @@ app.post( '/webhook', ( req, res ) => {
           // --------------------------- MESSAGE QUICK_REPLIES --------------------
 					else if ( hasValue( event.message, "text" ) && hasValue(event.message, "quick_reply" ) ) {
             // envoyer à Wit.ai ici
-            wit.message( quick_replypayload, sessions[ sessionId ].context )
+            wit.message( quick_reply.payload, sessions[ sessionId ].context )
               .then( ( {
                 entities
               } ) => {
