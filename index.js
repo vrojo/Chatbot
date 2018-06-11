@@ -519,7 +519,16 @@ app.post( '/webhook', ( req, res ) => {
           // --------------------------- MESSAGE QUICK_REPLIES --------------------
 					else if ( hasValue( event.message, "text" ) && hasValue(event.message, "quick_reply" ) ) {
             // envoyer à Wit.ai ici
-
+            wit.message( quick_reply.payload, sessions[ sessionId ].context )
+              .then( ( {
+                entities
+              } ) => {
+                choisir_prochaine_action( sessionId, sessions[
+                  sessionId ].context, entities );
+                console.log( 'Yay, on a une response de Wit.ai : ' + JSON.stringify(
+                  entities ) );
+              } )
+              .catch( console.error );
           }
           // ----------------------------- MESSAGE TEXT ---------------------------
           else if ( hasValue( event.message, "text" ) ) {
